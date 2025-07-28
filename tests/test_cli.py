@@ -22,26 +22,34 @@ def test_cli_version(runner):
     assert result.exit_code == 0
     assert "DevSec Scanner, version" in result.output
 
+
+class DummyProgress:
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+    def add_task(self, *a, **k):
+        return 1
+    def update(self, *a, **k):
+        pass
+
 def test_scan_firebase_success(runner, monkeypatch):
-    monkeypatch.setattr("src.devsec_scanner.cli.Progress", lambda *a, **kw: types.SimpleNamespace(__enter__=lambda s: s, __exit__=lambda s, exc_type, exc_val, exc_tb: None, add_task=lambda *a, **k: 1, update=lambda *a, **k: None))
+    monkeypatch.setattr("src.devsec_scanner.cli.Progress", DummyProgress)
     result = runner.invoke(cli.main, ['scan', 'firebase', 'dummy_path'])
     assert result.exit_code == 0
     assert "Firebase scan complete" in result.output
 
-def test_scan_git_success(runner, monkeypatch):
-    monkeypatch.setattr("src.devsec_scanner.cli.Progress", lambda *a, **kw: types.SimpleNamespace(__enter__=lambda s: s, __exit__=lambda s, exc_type, exc_val, exc_tb: None, add_task=lambda *a, **k: 1, update=lambda *a, **k: None))
+    monkeypatch.setattr("src.devsec_scanner.cli.Progress", DummyProgress)
     result = runner.invoke(cli.main, ['scan', 'git', 'dummy_path'])
     assert result.exit_code == 0
     assert "Git scan complete" in result.output
 
-def test_scan_s3_success(runner, monkeypatch):
-    monkeypatch.setattr("src.devsec_scanner.cli.Progress", lambda *a, **kw: types.SimpleNamespace(__enter__=lambda s: s, __exit__=lambda s, exc_type, exc_val, exc_tb: None, add_task=lambda *a, **k: 1, update=lambda *a, **k: None))
+    monkeypatch.setattr("src.devsec_scanner.cli.Progress", DummyProgress)
     result = runner.invoke(cli.main, ['scan', 's3', 'dummy_bucket'])
     assert result.exit_code == 0
     assert "S3 scan complete" in result.output
 
-def test_scan_all_success(runner, monkeypatch):
-    monkeypatch.setattr("src.devsec_scanner.cli.Progress", lambda *a, **kw: types.SimpleNamespace(__enter__=lambda s: s, __exit__=lambda s, exc_type, exc_val, exc_tb: None, add_task=lambda *a, **k: 1, update=lambda *a, **k: None))
+    monkeypatch.setattr("src.devsec_scanner.cli.Progress", DummyProgress)
     result = runner.invoke(cli.main, ['scan', 'all', 'dummy_path'])
     assert result.exit_code == 0
     assert "All-platform scan complete" in result.output

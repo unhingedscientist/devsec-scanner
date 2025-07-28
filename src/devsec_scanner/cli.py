@@ -6,6 +6,8 @@ from colorama import Fore, Style, init as colorama_init
 import sys
 import json
 
+from .utils.helpers import handle_error, DevSecError
+
 colorama_init(autoreset=True)
 console = Console()
 
@@ -61,8 +63,10 @@ def firebase(ctx, path):
             console.print(json.dumps(result, indent=2))
         else:
             print_success(f"Firebase scan complete for {path or 'current directory'}.")
+    except DevSecError as e:
+        handle_error(e, ctx.obj.get('VERBOSE', False))
     except Exception as e:
-        print_error(str(e))
+        handle_error(DevSecError(str(e)), ctx.obj.get('VERBOSE', False))
 
 @scan.command()
 @click.argument('path', required=False)
@@ -79,8 +83,10 @@ def git(ctx, path):
             console.print(json.dumps(result, indent=2))
         else:
             print_success(f"Git scan complete for {path or 'current directory'}.")
+    except DevSecError as e:
+        handle_error(e, ctx.obj.get('VERBOSE', False))
     except Exception as e:
-        print_error(str(e))
+        handle_error(DevSecError(str(e)), ctx.obj.get('VERBOSE', False))
 
 @scan.command()
 @click.argument('bucket', required=False)
@@ -97,8 +103,10 @@ def s3(ctx, bucket):
             console.print(json.dumps(result, indent=2))
         else:
             print_success(f"S3 scan complete for bucket {bucket or '[not specified]' }.")
+    except DevSecError as e:
+        handle_error(e, ctx.obj.get('VERBOSE', False))
     except Exception as e:
-        print_error(str(e))
+        handle_error(DevSecError(str(e)), ctx.obj.get('VERBOSE', False))
 
 @scan.command()
 @click.argument('path', required=False)
@@ -115,8 +123,10 @@ def all(ctx, path):
             console.print(json.dumps(result, indent=2))
         else:
             print_success(f"All-platform scan complete for {path or 'current directory'}.")
+    except DevSecError as e:
+        handle_error(e, ctx.obj.get('VERBOSE', False))
     except Exception as e:
-        print_error(str(e))
+        handle_error(DevSecError(str(e)), ctx.obj.get('VERBOSE', False))
 
 if __name__ == "__main__":
     main(obj={})

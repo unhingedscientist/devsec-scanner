@@ -1,0 +1,2 @@
+[console_scripts]
+devsec = devsec_scanner.main:main

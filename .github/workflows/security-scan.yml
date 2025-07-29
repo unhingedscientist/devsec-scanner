@@ -61,12 +61,7 @@ jobs:
       - name: Generate docs
         run: |
           echo "Generating docs (placeholder)"
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: scan-reports
-          path: report*.html
-jobs:
+
   security-scan:
     runs-on: ubuntu-latest
     steps:

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-def main():
 import sys
 from src.devsec_scanner.scanners.firebase_scanner import main as firebase_main
 from src.devsec_scanner.scanners.git_secrets_scanner import main as git_main

@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  devsecscanner:
+    build: .
+    image: devsecscanner:latest
+    environment:
+      - SCANNER_CONFIG=/config/scanner-config.yml
+      - GITHUB_APP_ID=your-app-id
+      - GITHUB_PRIVATE_KEY_PATH=/secrets/github-app.pem
+      - WEBHOOK_SECRET=your-webhook-secret
+    volumes:
+      - ./config:/config
+      - ./secrets:/secrets
+      - ./scan-targets:/scan-targets
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

@@ -1,0 +1,14 @@
+reporting:
+  formats: [json, html, pdf]
+  include_ai_analysis: true
+  security_score: true
+
+github:
+  app_id: 123456
+  private_key_path: /secrets/github-app.pem
+  webhook_secret: ${WEBHOOK_SECRET}
+
+scanning:
+  default_severity: medium
+  parallel_scans: true
+  timeout: 300

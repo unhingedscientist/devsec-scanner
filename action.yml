@@ -1,0 +1,26 @@
+name: 'DevSec Scanner Action'
+description: 'Run DevSec Scanner for security analysis in CI/CD.'
+inputs:
+  scan-type:
+    description: 'Scan type (all, firebase, git, s3)'
+    required: false
+    default: 'all'
+  severity-threshold:
+    description: 'Minimum severity to report'
+    required: false
+    default: 'medium'
+  ai-enabled:
+    description: 'Enable AI explanations and risk scoring'
+    required: false
+    default: 'true'
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        python main_scanner.py --ai-enabled ${{ inputs.ai-enabled }} --output-format json --severity-filter ${{ inputs.severity-threshold }} --export scan-results.json --parallel --timeout 600 --scanners ${{ inputs.scan-type }}
+      shell: bash
+    - uses: actions/upload-artifact@v4
+      with:
+        name: devsec-scan-report
+        path: scan-results.json
+        retention-days: 14

@@ -1,0 +1,24 @@
+{
+  "name": "DevSec Scanner",
+  "url": "https://yourdomain.com",
+  "hook_attributes": {
+    "url": "https://yourdomain.com/webhook"
+  },
+  "redirect_url": "https://yourdomain.com/installed",
+  "public": true,
+  "default_permissions": {
+    "contents": "read",
+    "pull_requests": "write",
+    "checks": "write",
+    "security_events": "read",
+    "actions": "read",
+    "administration": "read"
+  },
+  "default_events": [
+    "push",
+    "pull_request",
+    "repository",
+    "installation",
+    "security_advisory"
+  ]
+}

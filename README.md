@@ -1,4 +1,3 @@
-
 # DevSec Scanner
 
 DevSec Scanner is an AI-powered CLI tool that finds actually exploitable vulnerabilities in developer projects. Built by former bug bounty hunters, it provides actionable, contextual fix suggestions and a developer-first experience.
@@ -28,29 +27,28 @@ pip install -r requirements.txt
 ## ⚡ Quick Start
 
 ```sh
-devsec --help
-devsec scan firebase ./my-firebase-app
-devsec scan git ./my-repo
-devsec scan s3 my-bucket
-devsec scan all ./my-project
+./scanner --help
+./scanner all --ai-enabled --export results.json
+./scanner firebase git --severity high
+./scanner s3 --profile prod --ai-enabled
 ```
 
-## 🔑 Configuration
+## 🔧 Configuration
 
-Set your API keys and credentials via environment variables, `.env` file, or config YAML/JSON:
+You can use a `.scanner-config` YAML file to set global options:
 
-```env
-OPENAI_API_KEY=sk-...
-AWS_ACCESS_KEY_ID=...
-AWS_SECRET_ACCESS_KEY=...
-FIREBASE_SERVICE_ACCOUNT_PATH=path/to/serviceAccount.json
-```
-
-Or use a config file:
 ```yaml
-OPENAI_API_KEY: sk-...
-AWS_ACCESS_KEY_ID: ...
-AWS_SECRET_ACCESS_KEY: ...
+ai:
+  enabled: true
+  provider: openai  # or claude
+  max_requests_per_minute: 10
+output:
+  format: json
+  include_remediation: true
+  severity_filter: medium
+scanning:
+  parallel: true
+  timeout: 300
 ```
 
 ## 🛡️ Supported Platforms
@@ -60,6 +58,12 @@ AWS_SECRET_ACCESS_KEY: ...
 - APIs (coming soon)
 - Docker (coming soon)
 - MongoDB (coming soon)
+
+## 📊 Reporting & Integration
+- Consolidated reporting across all scan types
+- Executive dashboard summary
+- Export to JSON, text, or SARIF for CI/CD and security tools
+- AI-powered explanations, risk scoring, and remediation
 
 ## 📝 Contributing
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.

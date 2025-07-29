@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+def main():
+import sys
+from src.devsec_scanner.scanners.firebase_scanner import main as firebase_main
+from src.devsec_scanner.scanners.git_secrets_scanner import main as git_main
+
+def main():
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'firebase':
+            sys.argv = [sys.argv[0]] + sys.argv[2:]
+            firebase_main()
+        elif sys.argv[1] == 'git':
+            sys.argv = [sys.argv[0]] + sys.argv[2:]
+            git_main()
+        else:
+            print("Usage: scanner [firebase|git] [path]")
+            sys.exit(1)
+    else:
+        print("Usage: scanner [firebase|git] [path]")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

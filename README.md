@@ -152,7 +152,7 @@ done
 ### 1. Environment Setup
 ```sh
 # Clone and enter the repo
-git clone https://github.com/unhingedscientist/devsec-scanner.git
+git clone https://github.com/username/devsec-scanner.git
 cd devsec-scanner
 
 # (Recommended) Create a virtual environment
@@ -225,27 +225,6 @@ python -m secureml_core.cli.secureml_cli orchestrate results.json --repo /your/c
 For more, see `docs/USAGE.md` and `docs/architecture.md`.
 
 ---
-
-## Workflow Diagram
-
-```mermaid
-flowchart TD
-    A[Start: User/CI triggers scan] --> B[Affy Scout CLI: scout]
-    B --> C[Scan Target(s) with Modular Scanners]
-    C --> D[Output Results (JSON/SARIF/CSV)]
-    D --> E[SecureML Core: orchestrate]
-    E --> F[AI Analysis & Fix Suggestions]
-    F --> G{Auto-fix?}
-    G -- Yes, Dry-run --> H[Show Fix Plan, No Changes]
-    G -- Yes, Approve --> I[Apply Fixes, Create PR]
-    G -- No --> J[Report Only]
-    H --> K[Audit Log & Notifications]
-    I --> K
-    J --> K
-    K --> L[Export/Integrate: Webhooks, Slack, CI/CD]
-    L --> M[Dashboard (optional)]
-    M --> N[End]
-```
 
 ## Safety & Oversight
 - All autonomous actions support dry-run and rollback
